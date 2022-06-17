@@ -17,7 +17,10 @@ namespace FluxorWithBlazor.State.Weather
         public async Task HandleFetchDataAction(FetchDataAction action, IDispatcher dispatcher)
         {
             var forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-            dispatcher.Dispatch(new FetchDataResultAction(forecasts));
+            if(forecasts is not null)
+            {
+                dispatcher.Dispatch(new FetchDataResultAction(forecasts: forecasts!));
+            }
         }
     }
 }

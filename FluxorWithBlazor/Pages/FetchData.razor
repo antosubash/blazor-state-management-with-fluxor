@@ -8,16 +8,7 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@{
-    Console.WriteLine(weatherState.Value.Forecasts);
-}
-@if (weatherState.Value.Forecasts == null)
-{
-	<p><em>Loading...</em></p>
-}
-else
-{
-	<table class="table">
+<table class="table">
 		<thead>
 			<tr>
 				<th>Date</th>
@@ -27,25 +18,32 @@ else
 			</tr>
 		</thead>
 		<tbody>
-@{
-    Console.WriteLine(weatherState.Value.Forecasts.Count());
-}
-			@foreach (var forecast in weatherState?.Value?.Forecasts)
+			@if (weatherState.Value.Forecasts is not null)
 			{
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
+				@foreach (var forecast in weatherState.Value.Forecasts)
+				{
+					<tr>
+						<td>@forecast.Date.ToShortDateString()</td>
+						<td>@forecast.TemperatureC</td>
+						<td>@forecast.TemperatureF</td>
+						<td>@forecast.Summary</td>
+					</tr>
+				}
+			} else {
+				<tr>
+					<td colspan="4">No forecasts found</td>
+				</tr>
 			}
+
+			
 		</tbody>
 	</table>
-}
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
-        dispatcher.Dispatch(new FetchDataAction());
-    }
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		dispatcher.Dispatch(new FetchDataAction());
+	}
 }
