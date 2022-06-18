@@ -1,14 +1,16 @@
 ﻿@page "/fetchdata"
-@using FluxorWithBlazor.State.Weather
 @inject IDispatcher dispatcher
-@inject IState<WeatherState> weatherState
+@inject IState<WeatherState> weather
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 <PageTitle>Weather forecast</PageTitle>
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
-
-@if (WeatherState.Value.IsLoading)
+@{
+	Console.WriteLine(weather.Value.IsLoading);
+}
+@if (weather.Value.IsLoading)
 {
 	<p><em>Loading...</em></p>
 }
@@ -24,7 +26,7 @@ else
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var forecast in WeatherState.Value.Forecasts)
+			@foreach (var forecast in weather.Value.Forecasts)
 			{
 			<tr>
 				<td>@forecast.Date.ToShortDateString()</td>
@@ -41,7 +43,6 @@ else
 
 	protected override void OnInitialized()
 	{
-		base.OnInitialized();
 		dispatcher.Dispatch(new FetchDataAction());
 	}
 }

@@ -13,7 +13,7 @@ namespace FluxorWithBlazor.State.Weather
 		public WeatherState(bool isLoading, IEnumerable<WeatherForecast> forecasts)
 		{
 			IsLoading = isLoading;
-			Forecasts = forecasts ?? Array.Empty<WeatherForecast>();
+			Forecasts = forecasts;
 		}
 	}
 }
