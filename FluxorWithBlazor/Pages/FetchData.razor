@@ -7,9 +7,7 @@
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
-@{
-	Console.WriteLine(weather.Value.IsLoading);
-}
+
 @if (weather.Value.IsLoading)
 {
 	<p><em>Loading...</em></p>
@@ -43,6 +41,7 @@ else
 
 	protected override void OnInitialized()
 	{
+		base.OnInitialized();
 		dispatcher.Dispatch(new FetchDataAction());
 	}
 }
